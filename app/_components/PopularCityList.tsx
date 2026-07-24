@@ -15,7 +15,7 @@ export function PopularCityList() {
           Popular Travel Destinations
         </h2>
         <p className="text-muted-foreground text-sm md:text-base mt-1">
-          Explore top-rated spots curated by AI for your next escape
+          Explore top-rated spots curated for your next escape
         </p>
       </div>
       <Carousel items={cards} />

@@ -76,22 +76,7 @@ function Hero() {
             </div>
 
             {/* Video Showcase Section */}
-            <div className="pt-10 max-w-4xl mx-auto w-full">
-                <HeroVideoDialog
-                  className="dark:hidden shadow-2xl rounded-2xl overflow-hidden"
-                  animationStyle="from-center"
-                  videoSrc="https://www.youtube.com/embed/dQw4w9WgXcQ"
-                  thumbnailSrc="/destinations/banff.jpg"
-                  thumbnailAlt="Viora AI Trip Planner Video Preview"
-                />
-                <HeroVideoDialog
-                  className="hidden dark:block shadow-2xl rounded-2xl overflow-hidden"
-                  animationStyle="from-center"
-                  videoSrc="https://www.youtube.com/embed/dQw4w9WgXcQ"
-                  thumbnailSrc="/destinations/banff.jpg"
-                  thumbnailAlt="Viora AI Trip Planner Video Preview"
-                />
-            </div>
+            
         </div>
     </div>
   )
