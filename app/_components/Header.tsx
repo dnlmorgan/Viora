@@ -24,14 +24,14 @@ function Header() {
             {/* Logo */}
             <div className="flex gap-2 items-center">
                 <Image src={'/logo.png'} alt="logo" width={65} height={65} />
-                <h2 className="text-2xl font-bold">AI Trip Planner</h2>
+                <h2 className="text-2xl font-bold">Viora</h2>
             </div>
 
             {/* Menu Options */}
             <div className="flex gap-5 items-center">
                 {menuOptions.map((menu, index) => (
                     <Link key={index} href={menu.path}>
-                        <h2 className="text-lg hover:scale-105 transition">{menu.name}</h2>
+                        <h2 className="text-lg hover:scale-105 transition-all">{menu.name}</h2>
                     </Link>
                 ))}
             </div>
