@@ -13,11 +13,10 @@ import {
 } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "motion/react";
-import Image, { ImageProps } from "next/image";
 import { useOutsideClick } from "@/hooks/use-outside-click";
 
 interface CarouselProps {
-  items: JSX.Element[];
+  items: React.ReactElement[];
   initialScroll?: number;
 }
 
@@ -250,17 +249,18 @@ export const Card = ({
           </motion.p>
           <motion.p
             layoutId={layout ? `title-${card.title}` : undefined}
-            className="mt-2 max-w-xs text-left font-sans text-xl font-semibold [text-wrap:balance] text-white md:text-3xl"
+            className="mt-2 max-w-xs text-left font-sans text-xl font-semibold text-balance text-white md:text-3xl"
           >
             {card.title}
           </motion.p>
         </div>
-        <BlurImage
-          src={card.src}
-          alt={card.title}
-          fill
-          className="absolute inset-0 z-10 object-cover"
-        />
+        <div className="absolute inset-0 z-10">
+          <BlurImage
+            src={card.src}
+            alt={card.title}
+            className="h-full w-full object-cover"
+          />
+        </div>
       </motion.button>
     </>
   );
@@ -273,22 +273,24 @@ export const BlurImage = ({
   className,
   alt,
   ...rest
-}: ImageProps) => {
-  const [isLoading, setLoading] = useState(true);
+}: React.ImgHTMLAttributes<HTMLImageElement>) => {
+  const [imgSrc, setImgSrc] = useState<string>(
+    typeof src === "string" ? src : "/destinations/placeholder.svg",
+  );
+
+  useEffect(() => {
+    setImgSrc(typeof src === "string" ? src : "/destinations/placeholder.svg");
+  }, [src]);
+
   return (
     <img
-      className={cn(
-        "h-full w-full transition duration-300",
-        isLoading ? "blur-sm" : "blur-0",
-        className,
-      )}
-      onLoad={() => setLoading(false)}
-      src={src as string}
+      className={cn("h-full w-full object-cover", className)}
+      src={imgSrc}
       width={width}
       height={height}
       loading="lazy"
       decoding="async"
-      blurDataURL={typeof src === "string" ? src : undefined}
+      onError={() => setImgSrc("/destinations/placeholder.svg")}
       alt={alt ? alt : "Background of a beautiful view"}
       {...rest}
     />

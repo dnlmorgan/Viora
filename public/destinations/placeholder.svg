@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
+  <rect width="1200" height="800" fill="#e5e7eb"/>
+  <rect x="80" y="80" width="1040" height="640" rx="32" fill="#f3f4f6" stroke="#d1d5db" stroke-width="6"/>
+  <path d="M220 560c60-140 150-220 240-220 100 0 180 90 260 90 70 0 140-50 200-150" stroke="#9ca3af" stroke-width="18" fill="none" stroke-linecap="round"/>
+  <circle cx="320" cy="280" r="56" fill="#d1d5db"/>
+  <text x="600" y="430" text-anchor="middle" fill="#6b7280" font-family="Arial, sans-serif" font-size="40">Destination preview</text>
+</svg>
