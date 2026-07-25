@@ -1,6 +1,8 @@
 'use client'
 
 import React, { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { useUser } from '@clerk/nextjs'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { Send, Globe2, Plane, Landmark, Sparkles } from 'lucide-react'
@@ -31,9 +33,21 @@ const suggestions = [
 
 function Hero() {
   const [userInput, setUserInput] = useState('');
+  const router = useRouter();
+  const { user } = useUser();
 
   const handleSuggestionClick = (prompt: string) => {
     setUserInput(prompt);
+  };
+
+  const handleSend = () => {
+    if (!user) {
+      router.push('/sign-in');
+      return;
+    }
+
+    // TODO: dispatch the prompt to your AI/trip builder logic
+    console.log('Send prompt:', userInput);
   };
 
   return (
@@ -55,7 +69,12 @@ function Hero() {
                   onChange={(e) => setUserInput(e.target.value)}
                   className="w-full h-28 bg-transparent border-none focus-visible:ring-0 shadow-none resize-none text-base"
                 />
-                <Button size={'icon'} className="absolute right-6 bottom-6 shadow-md hover:scale-105 transition-transform">
+                <Button
+                  type="button"
+                  size={'icon'}
+                  onClick={handleSend}
+                  className="absolute right-6 bottom-6 shadow-md hover:scale-105 transition-transform"
+                >
                     <Send className="h-4 w-4" />
                 </Button>
             </div>
