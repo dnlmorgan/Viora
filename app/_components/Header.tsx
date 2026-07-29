@@ -22,7 +22,7 @@ const menuOptions = [
 ];  
 
 function Header() {
-    const { isLoaded, isSignedIn } = useUser();
+    const { user, isLoaded, isSignedIn } = useUser();
 
     return (
         <div className="flex justify-between items-center p-4 max-w-7xl mx-auto border-b border-border/40">
@@ -54,7 +54,12 @@ function Header() {
                     </>
                 )}
                 {isLoaded && isSignedIn && (
-                    <UserButton />
+                    <>
+                        <Link href={'/create-trip'}>
+                            <Button>Create New Trip</Button>
+                        </Link>
+                        <UserButton />
+                    </>
                 )}
             </div>
         </div>
