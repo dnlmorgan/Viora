@@ -23,7 +23,7 @@ function Provider({
 
     const saveUser = async () => {
       const result = await createUser({
-        email: user.primaryEmailAddress.emailAddress,
+        email: user.primaryEmailAddress.emailAddress?? "",
         imageUrl: user.imageUrl ?? "",
         name: user.fullName ?? "",
       });
