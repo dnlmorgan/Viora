@@ -5,7 +5,6 @@ import Header from './_components/Header'
 import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { useUser } from '@clerk/nextjs';
-import { User } from 'lucide-react';
 import { UserDetailContext } from '@/context/UserDetailContext';
 
 function Provider({
@@ -19,13 +18,17 @@ function Provider({
   const { user } = useUser();
 
   useEffect(() => {
-    if (!user?.primaryEmailAddress?.emailAddress) return;
+    const email = user?.primaryEmailAddress?.emailAddress ?? user?.emailAddresses?.[0]?.emailAddress;
+    if (!email) return;
+
+    const name = user?.fullName ?? `${user?.firstName ?? ""} ${user?.lastName ?? ""}`.trim();
+    const imageUrl = user?.imageUrl ?? "";
 
     const saveUser = async () => {
       const result = await createUser({
-        email: user.primaryEmailAddress.emailAddress?? "",
-        imageUrl: user.imageUrl ?? "",
-        name: user.fullName ?? "",
+        email,
+        imageUrl,
+        name,
       });
       setUserDetails(result);
     };
