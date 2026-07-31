@@ -55,7 +55,7 @@ function Header() {
                 )}
                 {isLoaded && isSignedIn && (
                     <>
-                        <Link href={'/create-trip'}>
+                        <Link href={'/create-new-trip'}>
                             <Button>Create New Trip</Button>
                         </Link>
                         <UserButton />

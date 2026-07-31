@@ -46,8 +46,7 @@ function Hero() {
       return;
     }
 
-    // TODO: dispatch the prompt to your AI/trip builder logic
-    console.log('Send prompt:', userInput);
+    router.push('/create-new-trip')
   };
 
   return (
