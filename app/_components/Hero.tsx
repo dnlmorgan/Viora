@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Send, Globe2, Plane, Landmark, Sparkles } from 'lucide-react'
 import { HeroVideoDialog } from '@/components/ui/hero-video-dialog'
 
-const suggestions = [
+export const suggestions = [
     {
         title: 'Create New Trip',
         prompt: 'Create a 5-day itinerary for a scenic trip to Banff, Canada with outdoor activities and mountain views.',
@@ -37,6 +37,11 @@ function Hero() {
   const { user } = useUser();
 
   const handleSuggestionClick = (prompt: string) => {
+    if (!user) {
+      router.push('/sign-in');
+      return;
+    }
+
     setUserInput(prompt);
   };
 
@@ -46,7 +51,12 @@ function Hero() {
       return;
     }
 
-    router.push('/create-new-trip')
+    if (!userInput.trim()) {
+      return;
+    }
+
+    const encodedPrompt = encodeURIComponent(userInput.trim());
+    router.push(`/create-new-trip?prompt=${encodedPrompt}`);
   };
 
   return (
