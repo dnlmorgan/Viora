@@ -7,10 +7,15 @@ import { Button } from '@/components/ui/button'
 import { Loader, Send } from 'lucide-react'
 import axios from 'axios'
 import EmptyBoxState from './EmptyBoxState'
+import GroupSizeUI from './GroupSizeUI'
+import BudgetUI from './BudgetUI'
+import FinalUI from './FinalUI'
+import TripDurationUI from './TripDurationUI'
 
 type Message={
     role:string,
-    content:string
+    content:string,
+    ui?:string,
 }
 
 function ChatBox() {
@@ -59,7 +64,8 @@ function ChatBox() {
 
             const assistantReply = {
                 role:"assistant",
-                content: result?.data?.resp || 'I could not generate a response right now.'
+                content: result?.data?.resp || 'I could not generate a response right now.',
+                ui: result?.data?.ui
             };
 
             const updatedMessages = [...nextMessages, assistantReply];
@@ -86,6 +92,34 @@ function ChatBox() {
         }
     }
 
+
+    const RenderGenerativeUI = (ui: string)=>{
+        const normalizedUi = ui?.toLowerCase().trim();
+        
+        if (normalizedUi === "budget") {
+            return <BudgetUI onSelectedOption={(v:string) => {
+                setUserInput(v);
+                void onSend(v);
+            }}/>
+        }
+        else if (normalizedUi === "groupsize") {
+            return <GroupSizeUI onSelectedOption={(v:string) => {
+                setUserInput(v);
+                void onSend(v);
+            }}/>
+        }
+        else if (normalizedUi === "tripduration") {
+            return <TripDurationUI onSelectedOption={(v:string) => {
+                setUserInput(v);
+                void onSend(v);
+            }}/>
+        }
+        else if (normalizedUi === "final") {
+            return <FinalUI/>
+        }
+        return null;
+    };
+
   return (
     <div className="h-[77vh] flex flex-col">
         {messages?.length==0 && 
@@ -95,8 +129,13 @@ function ChatBox() {
         }
         {/* Display Messages */}
         <section className="flex-1 overflow-y-auto p-4">
-            {messages.map((msg: Message, index) => (
-                msg.role === 'user' ? (
+            {messages.map((msg: Message, index) => {
+                // Only render UI if this is an assistant message with UI and the next message is NOT a user response
+                const nextMessage = messages[index + 1];
+                const hasUserResponseFollowing = nextMessage?.role === 'user';
+                const shouldRenderUi = msg.role === 'assistant' && !!msg.ui && !hasUserResponseFollowing;
+
+                return msg.role === 'user' ? (
                     <div className="flex justify-end mt-2" key={index}>
                         <div className="max-w-lg bg-primary text-white px-4 py-2 rounded-lg">
                             {msg.content}
@@ -106,15 +145,20 @@ function ChatBox() {
                     <div className="flex justify-start mt-2" key={index}>
                         <div className="max-w-lg bg-gray-100 text-black px-4 py-2 rounded-lg">
                             {msg.content}
+                            {shouldRenderUi ? RenderGenerativeUI(msg.ui ?? '') : null}
                         </div>
                     </div>
                 )
-            ))}
+            })}
 
             {loading && (
                 <div className="flex justify-start mt-2">
                     <div className="max-w-lg bg-gray-100 text-black px-4 py-2 rounded-lg">
-                        <Loader className="animate-spin"/>
+                        {messages.length > 0 && messages[messages.length - 1]?.ui?.toLowerCase().trim() === 'final' ? (
+                            <FinalUI/>
+                        ) : (
+                            <Loader className="animate-spin"/>
+                        )}
                     </div>
                 </div>
             )}
