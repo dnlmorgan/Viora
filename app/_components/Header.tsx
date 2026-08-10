@@ -22,7 +22,7 @@ const menuOptions = [
 ];  
 
 function Header() {
-    const { user, isLoaded, isSignedIn } = useUser();
+    const { isSignedIn, isLoaded } = useUser();
 
     return (
         <div className="flex justify-between items-center p-4 max-w-7xl mx-auto border-b border-border/40">
@@ -43,7 +43,16 @@ function Header() {
 
             {/* Auth Buttons */}
             <div className="flex gap-3 items-center">
-                {isLoaded && !isSignedIn && (
+                {!isLoaded ? (
+                    <div className="h-9 w-20 bg-muted animate-pulse rounded-md" />
+                ) : isSignedIn ? (
+                    <>
+                        <Link href={'/create-new-trip'}>
+                            <Button>Create New Trip</Button>
+                        </Link>
+                        <UserButton />
+                    </>
+                ) : (
                     <>
                         <SignInButton mode="modal">
                             <Button variant="ghost">Sign In</Button>
@@ -51,14 +60,6 @@ function Header() {
                         <SignUpButton mode="modal">
                             <Button>Get Started</Button>
                         </SignUpButton>
-                    </>
-                )}
-                {isLoaded && isSignedIn && (
-                    <>
-                        <Link href={'/create-new-trip'}>
-                            <Button>Create New Trip</Button>
-                        </Link>
-                        <UserButton />
                     </>
                 )}
             </div>
